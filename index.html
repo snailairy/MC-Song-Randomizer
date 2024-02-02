@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Song Player</title>
+    <style>
+        body {
+            background-color: #69ff87;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        #title {
+            font-family: 'Fixedsys Regular', monospace;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        #player {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        #subtitle {
+            font-family: 'Fixedsys Regular', monospace;
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="title">Minecraft Soundtrack</div>
+    <div id="subtitle">plays a Minecraft song from Volume Alpha every 2-7 minutes. Song list is from Key to Wet-Hands</div>
+    <button id="startButton" onclick="startMusic()">Start Music</button>
+    <button id="stopButton" onclick="stopMusic()" disabled>Stop Music</button>
+    <audio id="player" controls></audio>
+
+    <script>
+        var songs = ['Key.mp3', 'Door.mp3', 'Subwoofer-Lullaby.mp3', 'Death.mp3' 'Living-Mice.mp3' 'Moog-City.mp3' 'Haggstrom.mp3' 'Minecraft.mp3' 'Oxygene.mp3' 'Equinoxe.mp3' 'Mice-on-Venus.mp3' 'Dry-Hands.mp3' 'Wet-Hands.mp3'];
+        var player = document.getElementById('player');
+        var startButton = document.getElementById('startButton');
+        var stopButton = document.getElementById('stopButton');
+        var intervalId;
+
+        function playRandomSong() {
+            var randomSong = songs[Math.floor(Math.random() * songs.length)];
+            player.src = randomSong;
+            player.play();
+        }
+
+        function startMusic() {
+            // Play a song immediately
+            playRandomSong();
+
+            // Then play a new song every 2-7 minutes
+            intervalId = setInterval(function() {
+                var randomInterval = Math.random() * (7 - 2) + 2; // Random number between 2 and 7
+                setTimeout(playRandomSong, randomInterval * 60 * 1000); // Convert minutes to milliseconds
+            }, 0);
+
+            // Disable the Start button and enable the Stop button
+            startButton.disabled = true;
+            stopButton.disabled = false;
+        }
+
+        function stopMusic() {
+            // Stop the interval
+            clearInterval(intervalId);
+
+            // Stop the current song
+            player.pause();
+
+            // Enable the Start button and disable the Stop button
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        }
+    </script>
+</body>
+</html>
